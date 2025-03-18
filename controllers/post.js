@@ -62,7 +62,11 @@ const getPost = async (postId) => {
 const getUserPosts = async (userId) => {
   try {
     const posts = await Post.find({ user: userId })
-      .populate({ path: "user", select: "-password" });
+    .populate({ path: "user", select: "-password" })
+    .populate({
+      path: "comments",
+      populate: { path: "user", select: "-password" },
+    });
     
     return posts;
   } catch (error) {
